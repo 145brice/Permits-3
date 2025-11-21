@@ -212,7 +212,14 @@
     </style>
 </head>
 <body>
-    <div class="golden-particles" id="particles"></div>
+    <div class="fixed left-0 top-0 h-full bg-yellow-500 text-black w-12 flex flex-col justify-center space-y-8 z-50">
+        <button class="p-2 hover:bg-black hover:text-yellow" onclick="location.href='/'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <button class="p-2 hover:bg-black hover:text-yellow" onclick="location.href='/subscribe'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </button>
+    </div>    <div class="golden-particles" id="particles"></div>
     
     <div class="container">
         <div class="navbar">
@@ -230,7 +237,7 @@
         </div>
         
         {% if leads %}
-        <div class="leads-grid">
+        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>        <div class="leads-grid">
             {% for lead in leads %}
             <div class="lead-card">
                 <h3>{{ lead.address }}</h3>
@@ -338,7 +345,14 @@
     </style>
 </head>
 <body>
-    <div class="navbar">
+    <div class="fixed left-0 top-0 h-full bg-yellow-500 text-black w-12 flex flex-col justify-center space-y-8 z-50">
+        <button class="p-2 hover:bg-black hover:text-yellow" onclick="location.href='/'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <button class="p-2 hover:bg-black hover:text-yellow" onclick="location.href='/subscribe'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </button>
+    </div>    <div class="navbar">
         <h1>🏗️ Contractor Leads</h1>
         <div>
             <span>{{ user.email }}</span>
@@ -351,12 +365,12 @@
             <h2>Your Daily Leads - {{ date }}</h2>
             <p>Here are your top 10 hottest contractor leads, ranked by our AI.</p>
             {% if leads %}
-            <a href="/download_pdf/{{ date }}" class="download-btn">📄 Download Full PDF Report</a>
+        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>            <a href="/download_pdf/{{ date }}" class="download-btn">📄 Download Full PDF Report</a>
             {% endif %}
         </div>
         
         {% if leads %}
-            {% for lead in leads %}
+        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>            {% for lead in leads %}
             <div class="lead-card">
                 <div class="lead-header">
                     <div class="lead-rank">#{{ loop.index }}</div>

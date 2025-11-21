@@ -99,3 +99,27 @@ class FirebaseBackend:
         except Exception as e:
             print(f"Error retrieving permit data: {e}")
             return None
+
+    def get_daily_leads(self, date_str: str) -> List[Dict]:
+        """Get daily leads for a specific date (mock data for demo)"""
+        # Mock data for demonstration
+        return [
+            {
+                "county": "Nashville-Davidson",
+                "permit_number": "DEMO-001",
+                "address": "123 Main St, Nashville, TN",
+                "permit_type": "Residential Addition",
+                "estimated_value": 50000,
+                "work_description": "Kitchen remodel and addition",
+                "date": date_str
+            },
+            {
+                "county": "Davidson",
+                "permit_number": "DEMO-002",
+                "address": "456 Oak Ave, Nashville, TN",
+                "permit_type": "New Construction",
+                "estimated_value": 250000,
+                "work_description": "Single family home construction",
+                "date": date_str
+            }
+        ]

@@ -90,7 +90,7 @@ def logout():
 
 
 @app.route('/subscribe')
-@login_required
+# @login_required
 def subscribe():
     """Subscription page - redirect to main page for now"""
     # TODO: Implement proper subscription flow with Stripe
@@ -98,7 +98,7 @@ def subscribe():
 
 
 @app.route('/dashboard')
-@login_required
+# @login_required
 def dashboard():
     """Main dashboard - shows daily leads"""
     user_id = session.get('user_id')
@@ -115,7 +115,7 @@ def dashboard():
 
 
 @app.route('/download_pdf/<date>')
-@login_required
+# @login_required
 def download_pdf(date):
     """Download PDF report for specific date"""
     leads = firebase.get_daily_leads(date)
@@ -165,7 +165,7 @@ def stripe_webhook():
     
     return jsonify({'status': 'success'})
 @app.route('/success')
-@login_required
+# @login_required
 def success():
     """Payment success page"""
     return render_template('success.html')
