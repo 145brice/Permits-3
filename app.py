@@ -196,7 +196,8 @@ def buy_plan(plan):
 
 
 def run():
-    port = int(os.getenv('PORT', 8080))    print(f"n🚀 Starting Contractor Leads on http://localhost:{port}n")
+    port = int(os.getenv('PORT', 8080))
+    print(f"🚀 Starting Contractor Leads on http://localhost:{port}")
     app.run(host='0.0.0.0', port=port, debug=(config.FLASK_ENV == 'development'))
 if __name__ == '__main__':
     run()
