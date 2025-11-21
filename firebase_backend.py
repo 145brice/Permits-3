@@ -27,7 +27,7 @@ class FirebaseBackend:
                     "type": config.FIREBASE_TYPE,
                     "project_id": config.FIREBASE_PROJECT_ID,
                     "private_key_id": config.FIREBASE_PRIVATE_KEY_ID,
-                    "private_key": config.FIREBASE_PRIVATE_KEY,
+                    "private_key": config.FIREBASE_PRIVATE_KEY.replace('\\n', '\n'),
                     "client_email": config.FIREBASE_CLIENT_EMAIL,
                     "client_id": config.FIREBASE_CLIENT_ID,
                     "auth_uri": config.FIREBASE_AUTH_URI,
