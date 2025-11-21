@@ -282,3 +282,4 @@ For issues or questions:
 ---
 
 **Built with Python, Flask, BeautifulSoup, HuggingFace, Firebase, and Stripe**
+# Force redeploy
