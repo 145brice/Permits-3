@@ -6,6 +6,8 @@ from firebase_admin import credentials, firestore, auth
 from typing import Dict, List, Optional
 from datetime import datetime
 import config
+import json
+import os
 
 
 class FirebaseBackend:
@@ -14,8 +16,13 @@ class FirebaseBackend:
     def __init__(self):
         """Initialize Firebase app"""
         if not firebase_admin._apps:
-            # Try environment variables first (for Railway), then fallback to file
-            if config.FIREBASE_TYPE and config.FIREBASE_PRIVATE_KEY:
+            # Try FIREBASE_KEY environment variable first (single JSON string)
+            firebase_key = os.getenv('FIREBASE_KEY')
+            if firebase_key:
+                cred_dict = json.loads(firebase_key)
+                cred = credentials.Certificate(cred_dict)
+            # Fallback to individual environment variables
+            elif config.FIREBASE_TYPE and config.FIREBASE_PRIVATE_KEY:
                 cred_dict = {
                     "type": config.FIREBASE_TYPE,
                     "project_id": config.FIREBASE_PROJECT_ID,
@@ -33,7 +40,7 @@ class FirebaseBackend:
             elif config.FIREBASE_CREDENTIALS_PATH:
                 cred = credentials.Certificate(config.FIREBASE_CREDENTIALS_PATH)
             else:
-                raise ValueError("Firebase credentials not configured. Set either FIREBASE_CREDENTIALS_PATH or individual FIREBASE_* environment variables.")
+                raise ValueError("Firebase credentials not configured. Set FIREBASE_KEY environment variable or individual FIREBASE_* environment variables.")
             
             options = {}
             if config.FIREBASE_DATABASE_URL:
