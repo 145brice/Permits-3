@@ -197,7 +197,7 @@ def buy_plan(plan):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', type=int, default=5008)
+    parser.add_argument('--port', type=int, default=8080)
     args = parser.parse_args()
     port = args.port
     print(f"n🚀 Starting Contractor Leads on http://localhost:{port}n")

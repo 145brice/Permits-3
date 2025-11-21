@@ -39,7 +39,7 @@ FROM_EMAIL = os.getenv('FROM_EMAIL')
 # Flask
 SECRET_KEY = os.getenv('SECRET_KEY')
 FLASK_ENV = os.getenv('FLASK_ENV', 'development')
-PORT = int(os.getenv('PORT', 5008))
+PORT = int(os.getenv('PORT', 8080))
 
 # AI Model
 HF_MODEL_NAME = os.getenv('HF_MODEL_NAME', 'distilbert-base-uncased-finetuned-sst-2-english')
