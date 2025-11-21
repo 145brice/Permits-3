@@ -4,46 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contractor Leads SaaS</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-yellow': '#ffff00',
+                        'brand-black': '#000000',
+                        'brand-dark': '#1a1a1a',
+                        'brand-gray': '#333333'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Contractor Leads Live</h1>
-            <p>Pick your city to get started</p>
-        </header>
-        <nav>
-            {% if user %}
-            <a href="/dashboard" class="nav-link">Dashboard</a>
-            <a href="/logout" class="nav-link">Logout</a>
-            {% else %}
-            <a href="/login" class="nav-link">Login</a>
-            <a href="/signup" class="nav-link primary">Sign Up</a>
-            {% endif %}
-        </nav>
-        <main>
-            <div class="county-grid">
-                <a href="/buy/Bexar" class="county-card">
-                    <h3>Bexar County</h3>
-                    <p>Permits in Bexar County, TX</p>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="w-full max-w-6xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            <div class="text-brand-yellow font-bold text-xl">Contractor Leads</div>
+            <nav class="flex space-x-4">
+                {% if user %}
+                <a href="{{ url_for('dashboard') }}" class="text-brand-yellow hover:text-white transition-colors">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="text-brand-yellow hover:text-white transition-colors">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="text-brand-yellow hover:text-white transition-colors">Login</a>
+                <a href="{{ url_for('signup') }}" class="text-brand-yellow hover:text-white transition-colors">Sign Up</a>
+                {% endif %}
+            </nav>
+        </div>
+        <div class="w-full h-1 bg-brand-yellow mt-2"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg border-2 border-brand-black p-8 text-center">
+            <!-- Page-specific content goes here -->
+            <h1 class="text-3xl font-bold text-brand-black mb-4">Contractor Leads Live</h1>
+            <p class="text-brand-dark mb-6">Pick your city to get started</p>
+            
+            <!-- County Grid -->
+            <div class="grid grid-cols-1 gap-4 mb-6">
+                <a href="{{ url_for('buy_plan', plan='Bexar') }}" class="block bg-brand-dark text-brand-yellow p-4 rounded border-2 border-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition-all duration-300">
+                    <h3 class="font-semibold">Bexar County</h3>
+                    <p class="text-sm opacity-80">Permits in Bexar County, TX</p>
                 </a>
-                <a href="/buy/Davidson" class="county-card">
-                    <h3>Davidson County</h3>
-                    <p>Permits in Davidson County, TN</p>
+                <a href="{{ url_for('buy_plan', plan='Davidson') }}" class="block bg-brand-dark text-brand-yellow p-4 rounded border-2 border-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition-all duration-300">
+                    <h3 class="font-semibold">Davidson County</h3>
+                    <p class="text-sm opacity-80">Permits in Davidson County, TN</p>
                 </a>
-                <a href="/buy/Hamilton" class="county-card">
-                    <h3>Hamilton County</h3>
-                    <p>Permits in Hamilton County, TN</p>
+                <a href="{{ url_for('buy_plan', plan='Hamilton') }}" class="block bg-brand-dark text-brand-yellow p-4 rounded border-2 border-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition-all duration-300">
+                    <h3 class="font-semibold">Hamilton County</h3>
+                    <p class="text-sm opacity-80">Permits in Hamilton County, TN</p>
                 </a>
-                <a href="/buy/Austin-Travis" class="county-card">
-                    <h3>Austin-Travis County</h3>
-                    <p>Permits in Austin-Travis County, TX</p>
+                <a href="{{ url_for('buy_plan', plan='Austin-Travis') }}" class="block bg-brand-dark text-brand-yellow p-4 rounded border-2 border-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition-all duration-300">
+                    <h3 class="font-semibold">Austin-Travis County</h3>
+                    <p class="text-sm opacity-80">Permits in Austin-Travis County, TX</p>
                 </a>
             </div>
-        </main>
-        <footer>
-            <p>&copy; 2025 Contractor Leads SaaS. All rights reserved.</p>
-        </footer>
-    </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-6xl mx-auto px-4">
+        <div class="w-full h-0.5 bg-brand-black"></div>
+        <div class="bg-brand-yellow py-2 text-center text-brand-black text-sm">
+            © 2025 Contractor Leads SaaS. All rights reserved.
+        </div>
+    </footer>
 </body>
 </html>
