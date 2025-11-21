@@ -3,302 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Edge Permits</title>
+    <title>Login - Contractor Leads SaaS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-yellow': '#ffff00',
+                        'brand-black': '#000000',
+                        'brand-dark': '#1a1a1a',
+                        'brand-gray': '#333333'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #fff;
-            overflow-x: hidden;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
             min-height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Animated background particles */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-        }
-        
-        .site-header {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .nav-link {
-            padding: 16px 32px;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            border: 3px solid rgba(255, 215, 0, 0.8);
-            background: rgba(255, 215, 0, 0.15);
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .nav-link:hover::before {
-            left: 100%;
-        }
-        
-        .nav-link:hover {
-            background: rgba(255, 215, 0, 0.25);
-            border-color: #FFD700;
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        
-        .login-container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-        }
-        
-        .login-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 24px;
-            padding: 50px 40px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-        
-        .login-card h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 40px;
-            letter-spacing: -1px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
-            font-size: 15px;
-        }
-        
-        input {
-            width: 100%;
-            padding: 18px 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 16px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: rgba(255, 215, 0, 0.8);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
-            background: rgba(255, 255, 255, 0.12);
-        }
-        
-        .login-button {
-            width: 100%;
-            padding: 20px 30px;
-            margin: 30px 0 25px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #000;
-            border: none;
-            border-radius: 14px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
-        }
-        
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-        
-        .footer-link {
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 15px;
-        }
-        
-        .footer-link a {
-            color: #FFD700;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .footer-link a:hover {
-            color: #FFA500;
-            text-decoration: underline;
-        }
-        
-        .golden-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            overflow: hidden;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #FFD700;
-            border-radius: 50%;
-            opacity: 0;
-            animation: fall 3s linear infinite;
-            box-shadow: 0 0 10px #FFD700;
-        }
-        
-        @keyframes fall {
-            0% {
-                opacity: 1;
-                transform: translateY(-100px) translateX(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(100vh) translateX(50px);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 40px 30px;
-                margin: 20px;
-            }
-            
-            .login-card h1 {
-                font-size: 2.2rem;
-            }
-            
-            .nav-link {
-                padding: 12px 20px;
-                font-size: 14px;
-            }
         }
     </style>
 </head>
-<body>
-    <div class="golden-particles" id="particles"></div>
-    
-    <header class="site-header">
-        <nav class="nav-links">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/signup" class="nav-link">Sign Up</a>
-        </nav>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="w-full max-w-6xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            <div class="text-brand-yellow font-bold text-xl">Contractor Leads</div>
+            <nav class="flex space-x-4">
+                <a href="{{ url_for('index') }}" class="text-brand-yellow hover:text-white transition-colors">Home</a>
+                <a href="{{ url_for('signup') }}" class="text-brand-yellow hover:text-white transition-colors">Sign Up</a>
+            </nav>
+        </div>
+        <div class="w-full h-1 bg-brand-yellow mt-2"></div>
     </header>
-    
-    <div class="login-container">
-        <div class="login-card">
-            <h1>🏗️ Edge Permits - Login</h1>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg border-2 border-brand-black p-8">
+            <h1 class="text-3xl font-bold text-brand-black mb-6 text-center">Login</h1>
             
-            <form method="POST">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            {% if error %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            <form method="POST" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-brand-dark font-semibold mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" 
+                           class="w-full px-4 py-3 border-2 border-brand-gray rounded focus:border-brand-yellow focus:outline-none transition-colors"
+                           required>
                 </div>
                 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div>
+                    <label for="password" class="block text-brand-dark font-semibold mb-2">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password"
+                           class="w-full px-4 py-3 border-2 border-brand-gray rounded focus:border-brand-yellow focus:outline-none transition-colors"
+                           required>
                 </div>
                 
-                <button type="submit" class="login-button">Sign In</button>
+                <button type="submit" class="w-full bg-brand-dark text-brand-yellow py-3 px-6 rounded border-2 border-brand-yellow hover:bg-brand-yellow hover:text-brand-black transition-all duration-300 font-semibold">
+                    Sign In
+                </button>
             </form>
             
-            <div class="footer-link">
-                Don't have an account? <a href="/signup">Create one here</a>
+            <div class="text-center mt-6">
+                <p class="text-brand-dark">Don't have an account? 
+                    <a href="{{ url_for('signup') }}" class="text-brand-yellow hover:text-brand-black font-semibold transition-colors">Create one here</a>
+                </p>
             </div>
         </div>
-    </div>
-    
-    <script>
-        // Create golden particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 3 + 's';
-                particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-        // Initialize particles
-        createParticles();
-    </script>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-6xl mx-auto px-4">
+        <div class="w-full h-0.5 bg-brand-black"></div>
+        <div class="bg-brand-yellow py-2 text-center text-brand-black text-sm">
+            © 2025 Contractor Leads SaaS. All rights reserved.
+        </div>
+    </footer>
 </body>
 </html>
