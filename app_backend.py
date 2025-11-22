@@ -20,12 +20,12 @@ STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_test_secr
 # Stripe payment URLs for each county
 STRIPE_URLS = {
     'tennessee': {
-        'nashville': 'https://buy.stripe.com/4gM14pc1G7ij5XYfXx63K0j',
-        'chattanooga': 'https://buy.stripe.com/8x29AVaXCeKL86612D63K0k'
+        'nashville': 'https://buy.stripe.com/6oUaEZ4zegSTeuubHh63K0f',
+        'chattanooga': 'https://buy.stripe.com/14AfZj0iYeKLbiifXx63K0g'
     },
     'texas': {
-        'travis': 'https://buy.stripe.com/5kQ4gB1n2dGH4TU26H63K0m',
-        'bexar': 'https://buy.stripe.com/8x26oJd5K1XZ9aah1B63K0l'
+        'travis': 'https://buy.stripe.com/5kQ14pfdSeKLgCC26H63K0h',
+        'bexar': 'https://buy.stripe.com/8x25kF8PufOP9aa7r163K0i'
     }
 }
 
