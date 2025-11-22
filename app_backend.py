@@ -30,7 +30,7 @@ STRIPE_URLS = {
 }
 
 def load_leads():
-    db_path = '/Users/briceleasure/Desktop/contractor-leads-saas/leads_db/current_leads.json'
+    db_path = os.path.join(os.path.dirname(__file__), 'leads_db', 'current_leads.json')
     if os.path.exists(db_path):
         with open(db_path, 'r') as f:
             data = json.load(f)
