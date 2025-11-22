@@ -68,7 +68,7 @@ def format_leads_html(leads, max_leads=50):
         <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
             <p style="color: #9ca3af; font-size: 14px;">
                 You're receiving this because you're subscribed to Contractor Leads.<br>
-                <a href="http://localhost:5003/dashboard" style="color: #6366f1;">Manage Subscription</a>
+                <a href="http://localhost:8080/dashboard" style="color: #6366f1;">Manage Subscription</a>
             </p>
         </div>
     </div>

@@ -9,8 +9,8 @@ if [ -f .env ]; then
 fi
 
 # Check if app is already running
-if lsof -ti:5003 > /dev/null 2>&1; then
-    echo "⚠️  App already running on port 5003"
+if lsof -ti:8080 > /dev/null 2>&1; then
+    echo "⚠️  App already running on port 8080"
     echo "Stop it with: ./stop.sh"
     exit 1
 fi
@@ -25,7 +25,7 @@ echo "⏱️  Timeout: 120s"
 echo ""
 
 # Start gunicorn in background
-gunicorn -w 4 -b 0.0.0.0:5003 --timeout 120 --daemon --pid gunicorn.pid app_backend:app
+gunicorn -w 4 -b 0.0.0.0:8080 --timeout 120 --daemon --pid gunicorn.pid app_backend:app
 
 echo "✅ Application started!"
 echo ""
