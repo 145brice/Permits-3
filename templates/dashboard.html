@@ -237,7 +237,7 @@
         </div>
         
         {% if leads %}
-        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>        <div class="leads-grid">
+        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>        <div class="leads-grid">
             {% for lead in leads %}
             <div class="lead-card">
                 <h3>{{ lead.address }}</h3>
@@ -365,12 +365,12 @@
             <h2>Your Daily Leads - {{ date }}</h2>
             <p>Here are your top 10 hottest contractor leads, ranked by our AI.</p>
             {% if leads %}
-        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>            <a href="/download_pdf/{{ date }}" class="download-btn">📄 Download Full PDF Report</a>
+        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>            <a href="/download_pdf/{{ date }}" class="download-btn">📄 Download Full PDF Report</a>
             {% endif %}
         </div>
         
         {% if leads %}
-        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>            {% for lead in leads %}
+        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>        <div style="text-align: center; margin: 20px 0;"><button style="font-size: 24px; font-weight: bold; text-decoration: underline; text-decoration-color: red; color: red; background: none; border: none; cursor: pointer;">Sort by: Newest ↓</button></div>            {% for lead in leads %}
             <div class="lead-card">
                 <div class="lead-header">
                     <div class="lead-rank">#{{ loop.index }}</div>
