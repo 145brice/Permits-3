@@ -1,0 +1,15 @@
+✅ Database initialized successfully
+ * Serving Flask app 'app_backend'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.4.23:8080
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [22/Nov/2025 01:17:58] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Nov/2025 01:18:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Nov/2025 01:18:05] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+127.0.0.1 - - [22/Nov/2025 01:18:19] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Nov/2025 01:18:20] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Nov/2025 01:18:22] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Nov/2025 01:18:31] "GET / HTTP/1.1" 200 -

@@ -41,7 +41,7 @@ def view_subscription_stats():
     print(f"Total Subscriptions: {stats['total_subscriptions']}")
     print(f"Active Subscriptions: {stats['active_subscriptions']}")
     print(f"Cancelled Subscriptions: {stats['cancelled_subscriptions']}")
-    print(f"\nMonthly Recurring Revenue (MRR): ${stats['active_subscriptions'] * 19.99:.2f}")
+    print(f"\nMonthly Recurring Revenue (MRR): ${stats['active_subscriptions'] * 49.99:.2f}")
     print(f"\nSubscriptions by County:")
     
     # Get breakdown by county

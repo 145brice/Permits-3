@@ -68,7 +68,7 @@ Your contractor leads SaaS is **100% ready for launch!**
 - San Antonio, TX: 4,695 leads
 - **Total: 10,957 leads**
 
-**Pricing**: $19.99/month per county
+**Pricing**: $49.99/month per county
 
 **Test Data**:
 - 1 test user (test@example.com)

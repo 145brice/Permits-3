@@ -207,8 +207,8 @@ sqlite3 contractor_leads.db "SELECT COUNT(*) FROM users;"
 # Active subscriptions
 sqlite3 contractor_leads.db "SELECT COUNT(*) FROM subscriptions WHERE status='active';"
 
-# Revenue (assuming $19.99/month)
-sqlite3 contractor_leads.db "SELECT COUNT(*) * 19.99 FROM subscriptions WHERE status='active';"
+# Revenue (assuming $49.99/month)
+sqlite3 contractor_leads.db "SELECT COUNT(*) * 49.99 FROM subscriptions WHERE status='active';"
 ```
 
 ## ✅ Post-Deployment Verification

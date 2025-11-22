@@ -12,7 +12,14 @@ class StripePayment:
     """Handle Stripe subscription payments"""
     
     def __init__(self):
-        self.price_id = config.STRIPE_PRICE_ID
+        # County-specific price IDs - all $49.99/month
+        self.price_ids = {
+            'tennessee_nashville': 'price_nashville_4999',  # $49.99/month for Nashville
+            'tennessee_hamilton': 'price_hamilton_4999',   # $49.99/month for Chattanooga
+            'texas_bexar': 'price_bexar_4999',             # $49.99/month for San Antonio
+            'texas_travis': 'price_travis_4999',           # $49.99/month for Austin
+        }
+        self.default_price_id = config.STRIPE_PRICE_ID  # Fallback
     
     def create_checkout_session(self, customer_email: str, user_id: str) -> Dict:
         """Create a Stripe Checkout session for subscription"""

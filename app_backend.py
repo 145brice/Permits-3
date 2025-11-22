@@ -154,7 +154,7 @@ def index():
                     <h1>Daily Construction Permits</h1>
                     <p class="subtitle">
                         Fresh building permits delivered every morning.<br>
-                        <strong style="font-size: 3.5rem; color: #6366f1; font-weight: 800; display: block; margin-top: 20px;">$19.99/month</strong>
+                        <strong style="font-size: 3.5rem; color: #6366f1; font-weight: 800; display: block; margin-top: 20px;">$49.99/month</strong>
                     </p>
                     <div class="cta-group">
                         {% if user_email %}
@@ -236,7 +236,7 @@ def signup():
             <div class="plan-icon">{c['emoji']}</div>
             <h3 class="plan-city">{c['city']}</h3>
             <p class="plan-county">{c['county']}, {c['state']}</p>
-            <div class="plan-price">$19.99<span>/mo</span></div>
+            <div class="plan-price">$49.99<span>/mo</span></div>
             <div class="plan-leads">{c['count']:,} active leads</div>
             <a href="{stripe_url}" class="btn-subscribe">Subscribe</a>
             <ul class="plan-features">
@@ -278,7 +278,7 @@ def signup():
     <div class="container">
         <div class="header">
             <h1>Choose Your Market</h1>
-            <p class="subtitle">$19.99/month per county • Cancel anytime</p>
+            <p class="subtitle">$49.99/month per county • Cancel anytime</p>
         </div>
         <div class="grid">
             {cards_html}
@@ -471,7 +471,7 @@ def county_detail(state, county):
                     <h3>Unlock Full Access</h3>
                     <p>Subscribe to see complete addresses and contact details</p>
                 </div>
-                <a href="{stripe_url}" class="btn-unlock">Subscribe for $19.99/mo</a>
+                <a href="{stripe_url}" class="btn-unlock">Subscribe for $49.99/mo</a>
             </div>
         </div>
         """

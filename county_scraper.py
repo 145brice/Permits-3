@@ -58,10 +58,10 @@ def send_sendgrid_email(to_email, dynamic_template_data, template_id=SENDGRID_TE
 # send_sendgrid_email(
 #     to_email="145brice@gmail.com",
 #     dynamic_template_data={
-#         "headline": "New subscriber! John Doe just paid $19.99 for Nashville",
+#         "headline": "New subscriber! John Doe just paid $49.99 for Nashville",
 #         "subscriber_name": "John Doe",
 #         "product": "Nashville",
-#         "amount": "$19.99",
+#         "amount": "$49.99",
 #         "stripe_id": "sub_abc123"
 #     }
 # )
@@ -283,10 +283,10 @@ if __name__ == '__main__':
         send_sendgrid_email(
             to_email="145brice@gmail.com",
             dynamic_template_data={
-                "headline": "New subscriber! John Doe just paid $19.99 for Nashville",
+                "headline": "New subscriber! John Doe just paid $49.99 for Nashville",
                 "subscriber_name": "John Doe",
                 "product": "Nashville",
-                "amount": "$19.99",
+                "amount": "$49.99",
                 "stripe_id": "sub_abc123"
             }
         )
