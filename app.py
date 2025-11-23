@@ -1,5 +1,6 @@
 """
 Flask web application - Dashboard and API
+# Force redeploy trigger - 2025-11-23
 """
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_file
 from flask_cors import CORS
