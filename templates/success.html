@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Successful - Contractor Leads</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,160 +13,114 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fafafa;
+            color: #000;
+            line-height: 1.5;
             min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Particle animation */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 1s; }
-        .particle:nth-child(3) { width: 3px; height: 3px; left: 30%; animation-delay: 2s; }
-        .particle:nth-child(4) { width: 5px; height: 5px; left: 40%; animation-delay: 3s; }
-        .particle:nth-child(5) { width: 4px; height: 4px; left: 50%; animation-delay: 4s; }
-        .particle:nth-child(6) { width: 7px; height: 7px; left: 60%; animation-delay: 5s; }
-        .particle:nth-child(7) { width: 3px; height: 3px; left: 70%; animation-delay: 6s; }
-        .particle:nth-child(8) { width: 5px; height: 5px; left: 80%; animation-delay: 7s; }
-        .particle:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-delay: 8s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 40px 20px;
             text-align: center;
-            position: relative;
-            z-index: 2;
+            flex: 1;
         }
 
         .success-icon {
-            font-size: 4rem;
-            color: #ffd700;
+            font-size: 48px;
+            color: #4682b4;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
         }
 
         .message {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 16px;
+            margin-bottom: 32px;
+            color: #666;
             line-height: 1.6;
-            opacity: 0.9;
         }
 
         .btn {
             display: inline-block;
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            color: #1a1a2e;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-            margin: 10px;
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #4682b4;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            margin: 8px;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+            text-decoration: underline;
         }
 
         .details {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 40px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 0;
+            padding: 24px;
+            margin-top: 32px;
+            text-align: left;
         }
 
         .details h2 {
-            color: #ffd700;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 600;
         }
 
         .details p {
-            margin-bottom: 10px;
-            opacity: 0.8;
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .details p:before {
+            content: "• ";
+            color: #4682b4;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px 15px;
+                padding: 20px 16px;
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 24px;
             }
 
             .message {
-                font-size: 1rem;
+                font-size: 14px;
             }
 
             .btn {
-                padding: 12px 25px;
-                font-size: 1rem;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .details {
+                padding: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
     <div class="container">
         <div class="success-icon">✓</div>
         <h1>Payment Successful!</h1>
@@ -175,14 +130,14 @@
         </p>
 
         <a href="/dashboard" class="btn">Go to Dashboard</a>
-        <a href="/" class="btn btn-secondary">Back to Home</a>
+        <a href="/" class="btn">Back to Home</a>
 
         <div class="details">
             <h2>What happens next?</h2>
-            <p>• Your subscription is now active</p>
-            <p>• Daily leads will be available in your dashboard</p>
-            <p>• You can download PDF reports anytime</p>
-            <p>• Email notifications are enabled for new leads</p>
+            <p>Your subscription is now active</p>
+            <p>Daily leads will be available in your dashboard</p>
+            <p>You can download PDF reports anytime</p>
+            <p>Email notifications are enabled for new leads</p>
         </div>
     </div>
 </body>

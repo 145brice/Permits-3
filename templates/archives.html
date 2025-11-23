@@ -4,70 +4,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permit Archives - Contractor Leads</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fafafa;
+            color: #000;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .nav-link {
+            color: #4682b4;
+            text-decoration: underline;
+            font-size: 16px;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .archives-section {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            padding: 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .files-list {
+            padding: 24px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 12px;
+            background: #fff;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .file-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .view-btn {
+            color: #4682b4;
+            text-decoration: underline;
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+
+        .view-btn:hover {
+            text-decoration: underline;
+        }
+
+        .no-files {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            color: #666;
+        }
+
+        .no-files h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .no-files p {
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .files-list {
+                padding: 16px;
+            }
+
+            .section-header {
+                padding: 16px;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen">
-        <!-- Navigation -->
-        <nav class="bg-white shadow-lg">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <a href="{{ url_for('dashboard') }}" class="text-xl font-bold text-gray-800">Contractor Leads</a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <a href="{{ url_for('dashboard') }}" class="text-gray-600 hover:text-gray-900">Dashboard</a>
-                        <a href="{{ url_for('archives') }}" class="text-blue-600 font-medium">Archives</a>
-                        {% if session.user_id %}
-                        <a href="{{ url_for('logout') }}" class="text-gray-600 hover:text-gray-900">Logout</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <div class="max-w-7xl mx-auto py-6 px-4">
-            <div class="bg-white shadow rounded-lg">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h1 class="text-2xl font-bold text-gray-900">Permit Archives</h1>
-                    <p class="mt-1 text-sm text-gray-600">Historical permit data for your subscribed counties</p>
-                </div>
-
-                <div class="p-6">
-                    {% if csv_files %}
-                        {% for county_slug, files in csv_files.items() %}
-                        <div class="mb-8">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ county_slug.title() }} County</h2>
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <div class="space-y-2">
-                                    {% for filename, mtime in files %}
-                                    <div class="flex items-center justify-between py-2 px-3 bg-white rounded border">
-                                        <div>
-                                            <span class="font-medium">{{ filename }}</span>
-                                            <span class="text-sm text-gray-500 ml-2">
-                                                {{ mtime | strftime('%Y-%m-%d %H:%M') }}
-                                            </span>
-                                        </div>
-                                        <a href="{{ url_for('view_csv', filename=filename) }}" 
-                                           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">
-                                            View
-                                        </a>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="text-center py-12">
-                            <p class="text-gray-500">No archived permit files found for your subscriptions.</p>
-                            <p class="text-sm text-gray-400 mt-2">Files are generated daily by the scraper.</p>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Permit Archives</h1>
+            <p>Historical permit data for your subscribed counties</p>
         </div>
+
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/library" class="nav-link">My Leads</a>
+            <a href="/logout" class="nav-link">Logout</a>
+        </div>
+
+        {% if csv_files %}
+            {% for county_slug, files in csv_files.items() %}
+            <div class="archives-section">
+                <div class="section-header">
+                    <h2>{{ county_slug.title() }} County</h2>
+                </div>
+                <div class="files-list">
+                    {% for filename, mtime in files %}
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">{{ filename }}</div>
+                            <div class="file-date">{{ mtime | strftime('%Y-%m-%d %H:%M') }}</div>
+                        </div>
+                        <a href="{{ url_for('view_csv', filename=filename) }}" class="view-btn">View</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-files">
+                <h3>No archived permit files found</h3>
+                <p>No archived permit files found for your subscriptions. Files are generated daily by the scraper.</p>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>

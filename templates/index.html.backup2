@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractor Leads - Daily Permit Notifications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFD700;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.8);
+        }
+    </style>
+</head>
+<body class="relative z-10">
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-4xl w-full">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-6xl font-bold text-white mb-4">
+                    🏗️ <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Contractor Leads</span>
+                </h1>
+                <p class="text-xl text-gray-200 mb-8">Cancel anytime. Get an entire city's daily permit dump delivered fresh every morning</p>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="flex justify-center space-x-4 mb-12">
+                <a href="/login" class="btn-secondary">Login</a>
+                <a href="/signup" class="btn-primary">Sign Up</a>
+            </div>
+
+            <!-- Main Content -->
+            <div class="glass-card p-8">
+                <h2 class="text-3xl font-bold text-white text-center mb-8">
+                    🚀 <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Daily Contractor Leads - $49.99/mo</span>
+                </h2>
+                <p class="text-gray-200 text-center mb-8 text-lg">
+                    Pick your city to get started with daily permit notifications
+                </p>
+
+                <!-- City Grid -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <a href="https://buy.stripe.com/8x26oJd5K1XZ9aah1B63K0l" class="glass-card p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <h3 class="text-2xl font-bold text-white mb-2">San Antonio - Bexar County</h3>
+                        <p class="text-gray-300">Permits in San Antonio - Bexar County, TX</p>
+                        <div class="mt-4 text-yellow-400 font-semibold">$49.99/month</div>
+                    </a>
+
+                    <a href="https://buy.stripe.com/4gM14pc1G7ij5XYfXx63K0j" class="glass-card p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <h3 class="text-2xl font-bold text-white mb-2">Nashville - Davidson County</h3>
+                        <p class="text-gray-300">Permits in Nashville - Davidson County, TN</p>
+                        <div class="mt-4 text-yellow-400 font-semibold">$49.99/month</div>
+                    </a>
+
+                    <a href="https://buy.stripe.com/8x29AVaXCeKL86612D63K0k" class="glass-card p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <h3 class="text-2xl font-bold text-white mb-2">Chattanooga - Hamilton County</h3>
+                        <p class="text-gray-300">Permits in Chattanooga - Hamilton County, TN</p>
+                        <div class="mt-4 text-yellow-400 font-semibold">$49.99/month</div>
+                    </a>
+
+                    <a href="https://buy.stripe.com/5kQ4gB1n2dGH4TU26H63K0m" class="glass-card p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <h3 class="text-2xl font-bold text-white mb-2">Austin - Travis County</h3>
+                        <p class="text-gray-300">Permits in Austin - Travis County, TX</p>
+                        <div class="mt-4 text-yellow-400 font-semibold">$49.99/month</div>
+                    </a>
+                </div>
+
+                <!-- Footer -->
+                <div class="text-center mt-8 text-gray-400">
+                    <p>Contact: 145brice@gmail.com | Nashville, TN 37138</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

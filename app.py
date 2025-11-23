@@ -47,7 +47,7 @@ email_service = EmailService()
 @app.route('/')
 def index():
     user = session.get('user')
-    return render_template('index.html', user=user)
+    return render_template('index.html', user=user, stripe_publishable_key=config.STRIPE_PUBLISHABLE_KEY)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -547,11 +547,42 @@ def admin():
     total_value = sum(int(p.get('estimated_value', 0) or 0) for p in master)
     
     return render_template('admin.html', master=master, cities=cities, user=user, total_value=total_value)
-@app.route('/api/test')
-def api_test():
-    """Simple test API endpoint"""
-    print("DEBUG: TEST API ROUTE HIT")
-    return '{"test": "success"}'
+@app.route('/success')
+def success():
+    """Handle successful payment"""
+    session_id = request.args.get('session_id')
+    if session_id:
+        # Here you could verify the payment and activate the subscription
+        return render_template('success.html')
+    return redirect(url_for('index'))
+def create_checkout():
+    """Create Stripe checkout session"""
+    try:
+        data = request.get_json()
+        city = data.get('city')
+        email = data.get('email')
+        
+        if not city or not email:
+            return jsonify({'error': 'Missing city or email'}), 400
+        
+        # Create checkout session
+        success_url = request.host_url + 'success?session_id={CHECKOUT_SESSION_ID}'
+        cancel_url = request.host_url
+        
+        session_data = stripe_payment.create_checkout_session(
+            email, 
+            f"user_{email.replace('@', '_')}",
+            success_url=success_url,
+            cancel_url=cancel_url
+        )
+        
+        if not session_data:
+            return jsonify({'error': 'Failed to create checkout session'}), 500
+        
+        return jsonify({'id': session_data['session_id']})
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 
 print("DEBUG: API route registered")

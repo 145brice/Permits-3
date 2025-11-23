@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """
-Auto-Scraper Cron - Runs 4x daily, feeds subscribers
-Schedule: 5:30 AM, 9:30 AM, 1:30 PM, 5:30 PM
+Auto-Scraper Cron - Runs once daily on weekdays at random time
+Schedule: Daily at 5:00 AM, then waits random 30-32.5 hours, scrapes once
 """
 import os
 import sys
 import time
+import random
 import schedule
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from multi_region_scraper import scrape_all_regions, METRO_COVERAGE
+from multi_region_scraper import scrape_all_regions
 from subscription_manager import (
     get_active_subscribers, filter_new_permits, save_fresh_dump,
     cleanup_old_seen_permits, save_to_archive
@@ -25,10 +26,27 @@ import json
 # ==================== SCRAPER LOOP ====================
 
 def scrape_and_feed():
-    """Main scraping loop - runs 4x daily"""
+    """Main scraping loop - runs once daily on weekdays at random time"""
     print("\n" + "="*70)
     print(f"🤖 AUTO-SCRAPER RUNNING - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*70)
+    
+    # Check if weekend - exit if Saturday (5) or Sunday (6)
+    if datetime.now().weekday() in [5, 6]:
+        print("   📅 Weekend detected - skipping scrape")
+        return
+    
+    # Calculate random wait time: 1800-1950 minutes past 5 AM
+    wait_time = random.randint(1800, 1950)
+    start_time = datetime.now().replace(hour=5, minute=0, second=0, microsecond=0) + timedelta(minutes=wait_time)
+    
+    print(f"   ⏰ Random scrape time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    # Wait until start time
+    while datetime.now() < start_time:
+        time.sleep(60)  # Sleep 1 minute
+    
+    print(f"   🚀 Starting scrape at {datetime.now().strftime('%H:%M:%S')}")
     
     # Get all active subscribers grouped by city
     subscribers = get_active_subscribers()
@@ -126,21 +144,17 @@ def scrape_and_feed():
 # ==================== SCHEDULE SETUP ====================
 
 def setup_schedule():
-    """Set up 4x daily scraping schedule"""
+    """Set up daily scraping schedule at 5:00 AM"""
     
-    # Schedule scraping 4 times per day
-    schedule.every().day.at("05:30").do(scrape_and_feed)  # 5:30 AM
-    schedule.every().day.at("09:30").do(scrape_and_feed)  # 9:30 AM
-    schedule.every().day.at("13:30").do(scrape_and_feed)  # 1:30 PM
-    schedule.every().day.at("17:30").do(scrape_and_feed)  # 5:30 PM
+    # Schedule scraping once per day at 5:00 AM
+    schedule.every().day.at("05:00").do(scrape_and_feed)
     
     print("="*70)
     print("⏰ AUTO-SCRAPER SCHEDULE")
     print("="*70)
-    print("   • 5:30 AM  - Morning scrape")
-    print("   • 9:30 AM  - Mid-morning scrape")
-    print("   • 1:30 PM  - Afternoon scrape")
-    print("   • 5:30 PM  - Evening scrape")
+    print("   • 5:00 AM  - Daily start (weekdays only)")
+    print("   • Random wait: 30-32.5 hours")
+    print("   • Actual scrape: ~11:00 AM - 1:30 PM")
     print("="*70)
     print("\n🤖 Scraper is running... (Press Ctrl+C to stop)")
     print()
@@ -159,7 +173,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='Auto-scraper cron system')
     parser.add_argument('--once', action='store_true', help='Run scraper once and exit')
-    parser.add_argument('--daemon', action='store_true', help='Run as daemon (4x daily)')
+    parser.add_argument('--daemon', action='store_true', help='Run as daemon (daily on weekdays)')
     
     args = parser.parse_args()
     
@@ -182,4 +196,4 @@ if __name__ == "__main__":
     else:
         print("Usage:")
         print("  python3 auto_scraper_cron.py --once     # Run once (test)")
-        print("  python3 auto_scraper_cron.py --daemon   # Run as daemon (4x daily)")
+        print("  python3 auto_scraper_cron.py --daemon   # Run as daemon (daily weekdays)")

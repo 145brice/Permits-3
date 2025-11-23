@@ -1,0 +1,13 @@
+county,permit_number,address,permit_type,estimated_value,work_description,date,city,pull_time
+Nashville-Davidson,REAL-001,"789 Elm St, Nashville, TN",Commercial Renovation,150000,Office space renovation,2025-11-21,davidson,2025-11-21
+Nashville-Davidson,REAL-001,"789 Elm St, Nashville, TN",Commercial Renovation,150000,Office space renovation,2025-11-21,davidson,2025-11-21
+Nashville-Davidson,REAL-001,"789 Elm St, Nashville, TN",Commercial Renovation,150000,Office space renovation,2025-11-21,davidson,2025-11-21
+Bexar,BEX-001,"456 Main St, San Antonio, TX",Residential Addition,75000,Adding a master bathroom to existing home,2025-11-21,bexar,2025-11-21
+Bexar,BEX-002,"789 Oak Ave, San Antonio, TX",Commercial Renovation,200000,Restaurant kitchen remodel,2025-11-21,bexar,2025-11-21
+Nashville-Davidson,REAL-001,"789 Elm St, Nashville, TN",Commercial Renovation,150000,Office space renovation,2025-11-21,davidson,2025-11-21
+Austin-Travis,ATX-001,"987 Congress Ave, Austin, TX",Commercial Renovation,500000,Downtown office building renovation,2025-11-21,travis,2025-11-21
+Austin-Travis,ATX-002,"147 Rainey St, Austin, TX",Multi-Family Construction,800000,New apartment complex construction,2025-11-21,travis,2025-11-21
+Bexar,BEX-001,"456 Main St, San Antonio, TX",Residential Addition,75000,Adding a master bathroom to existing home,2025-11-21,bexar,2025-11-21
+Bexar,BEX-002,"789 Oak Ave, San Antonio, TX",Commercial Renovation,200000,Restaurant kitchen remodel,2025-11-21,bexar,2025-11-21
+Hamilton,HAM-001,"321 Signal Mountain Rd, Chattanooga, TN",Residential New Construction,350000,New single-family home construction,2025-11-21,hamilton,2025-11-21
+Hamilton,HAM-002,"654 Market St, Chattanooga, TN",Commercial Addition,125000,Retail store expansion,2025-11-21,hamilton,2025-11-21

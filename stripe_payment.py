@@ -21,7 +21,7 @@ class StripePayment:
         }
         self.default_price_id = config.STRIPE_PRICE_ID  # Fallback
     
-    def create_checkout_session(self, customer_email: str, user_id: str) -> Dict:
+    def create_checkout_session(self, customer_email: str, user_id: str, success_url: str = None, cancel_url: str = None) -> Dict:
         """Create a Stripe Checkout session for subscription"""
         try:
             session = stripe.checkout.Session.create(
@@ -32,8 +32,8 @@ class StripePayment:
                     'price': self.price_id,
                     'quantity': 1,
                 }],
-                success_url='http://localhost:5008/success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url='https://yourapp.com/cancel',
+                success_url=success_url or 'http://localhost:5008/success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=cancel_url or 'https://yourapp.com/cancel',
                 metadata={
                     'user_id': user_id
                 }
