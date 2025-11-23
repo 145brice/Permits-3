@@ -10,15 +10,23 @@ import os
 
 import csv
 from pathlib import Path
+import io
 
 from firebase_backend import FirebaseBackend
 from stripe_payment import StripePayment
 from email_service import EmailService
 import config
+from auth import login_required
+
+print("DEBUG: app.py module loaded")
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
 CORS(app)
+
+@app.before_request
+def before_request():
+    print(f"DEBUG: REQUEST RECEIVED - {request.method} {request.path}")
 
 # Add custom Jinja2 filters
 @app.template_filter('number_format')
@@ -32,16 +40,6 @@ def number_format(value):
 firebase = FirebaseBackend()
 stripe_payment = StripePayment()
 email_service = EmailService()
-
-
-def login_required(f):
-    """Decorator to require login"""
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
 
 
 # ==================== Routes ====================
@@ -93,7 +91,7 @@ def logout():
 
 
 @app.route('/subscribe')
-# @login_required
+@login_required
 def subscribe():
     """Subscription page - redirect to main page for now"""
     # TODO: Implement proper subscription flow with Stripe
@@ -101,7 +99,7 @@ def subscribe():
 
 
 @app.route('/dashboard')
-# @login_required
+@login_required
 def dashboard():
     """Main dashboard - shows daily leads"""
     user_id = session.get('user_id')
@@ -118,7 +116,7 @@ def dashboard():
 
 
 @app.route('/archives')
-# @login_required
+@login_required
 def archives():
     """Archives page - shows historical CSV files"""
     user_id = session.get('user_id')
@@ -153,7 +151,7 @@ def archives():
 
 
 @app.route('/view_csv/<filename>')
-# @login_required
+@login_required
 def view_csv(filename):
     """View CSV file as sortable table"""
     user_id = session.get('user_id')
@@ -194,7 +192,7 @@ def view_csv(filename):
 
 
 @app.route('/download_pdf/<date>')
-# @login_required
+@login_required
 def download_pdf(date):
     """Download PDF report for specific date"""
     leads = firebase.get_daily_leads(date)
@@ -209,6 +207,169 @@ def download_pdf(date):
         mimetype='application/pdf',
         as_attachment=True,
         download_name=f'contractor_leads_{date}.pdf'
+    )
+
+
+@app.route('/download_all_permits')
+@login_required
+def download_all_permits():
+    """Download all permits as CSV"""
+    import csv
+    from io import StringIO
+    
+    # Pull master list from scraped_permits directory (same logic as admin route)
+    master = []
+    data_dir = Path('scraped_permits')
+    if data_dir.exists():
+        for csv_file in data_dir.glob('*.csv'):
+            city_name = csv_file.name.split('_')[0]  # Extract city from filename
+            # Map city names to slugs
+            city_map = {
+                'sanantonio': 'bexar',
+                'nashville': 'davidson',
+                'austin': 'travis',
+                'hamilton': 'hamilton'
+            }
+            city_slug = city_map.get(city_name, city_name)
+            try:
+                with open(csv_file, 'r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        row['city'] = city_slug
+                        # Add pull_time if not present (use file modification time)
+                        if 'pull_time' not in row:
+                            row['pull_time'] = datetime.fromtimestamp(csv_file.stat().st_mtime).strftime('%Y-%m-%d %H:%M:%S')
+                        master.append(row)
+            except Exception as e:
+                print(f"Error reading {csv_file}: {e}")
+    
+    # Also load from data/permits.csv if it exists (for mock data)
+    permits_file = Path('data/permits.csv')
+    if permits_file.exists():
+        try:
+            with open(permits_file, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    # Map county to city slug for consistency
+                    county = row.get('county', '')
+                    city_map = {
+                        'Nashville-Davidson': 'davidson',
+                        'Bexar': 'bexar', 
+                        'Hamilton': 'hamilton',
+                        'Austin-Travis': 'travis'
+                    }
+                    row['city'] = city_map.get(county, county.lower().replace(' ', '_'))
+                    # Add pull_time if not present
+                    if 'pull_time' not in row:
+                        row['pull_time'] = row.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                    master.append(row)
+        except Exception as e:
+            print(f"Error reading permits.csv: {e}")
+    
+    # Sort by pull_time (most recent first)
+    master.sort(key=lambda x: x.get('pull_time', ''), reverse=True)
+    
+    if not master:
+        return "No permits available", 404
+    
+    # Create CSV in memory
+    output = StringIO()
+    if master:
+        fieldnames = master[0].keys()
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(master)
+    
+    output.seek(0)
+    
+    return send_file(
+        io.BytesIO(output.getvalue().encode('utf-8')),
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name=f'all_permits_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+    )
+
+
+@app.route('/download_permit/<permit_number>')
+@login_required
+def download_permit(permit_number):
+    """Download individual permit as CSV"""
+    import csv
+    from io import StringIO
+    
+    # Pull master list from scraped_permits directory (same logic as admin route)
+    master = []
+    data_dir = Path('scraped_permits')
+    if data_dir.exists():
+        for csv_file in data_dir.glob('*.csv'):
+            city_name = csv_file.name.split('_')[0]  # Extract city from filename
+            # Map city names to slugs
+            city_map = {
+                'sanantonio': 'bexar',
+                'nashville': 'davidson',
+                'austin': 'travis',
+                'hamilton': 'hamilton'
+            }
+            city_slug = city_map.get(city_name, city_name)
+            try:
+                with open(csv_file, 'r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        row['city'] = city_slug
+                        # Add pull_time if not present (use file modification time)
+                        if 'pull_time' not in row:
+                            row['pull_time'] = datetime.fromtimestamp(csv_file.stat().st_mtime).strftime('%Y-%m-%d %H:%M:%S')
+                        master.append(row)
+            except Exception as e:
+                print(f"Error reading {csv_file}: {e}")
+    
+    # Also load from data/permits.csv if it exists (for mock data)
+    permits_file = Path('data/permits.csv')
+    if permits_file.exists():
+        try:
+            with open(permits_file, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    # Map county to city slug for consistency
+                    county = row.get('county', '')
+                    city_map = {
+                        'Nashville-Davidson': 'davidson',
+                        'Bexar': 'bexar', 
+                        'Hamilton': 'hamilton',
+                        'Austin-Travis': 'travis'
+                    }
+                    row['city'] = city_map.get(county, county.lower().replace(' ', '_'))
+                    # Add pull_time if not present
+                    if 'pull_time' not in row:
+                        row['pull_time'] = row.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                    master.append(row)
+        except Exception as e:
+            print(f"Error reading permits.csv: {e}")
+    
+    # Find the specific permit
+    permit = None
+    for p in master:
+        if p.get('permit_number') == permit_number:
+            permit = p
+            break
+    
+    if not permit:
+        return "Permit not found", 404
+    
+    # Create CSV with just this permit
+    output = StringIO()
+    fieldnames = permit.keys()
+    writer = csv.DictWriter(output, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow(permit)
+    
+    output.seek(0)
+    
+    return send_file(
+        io.BytesIO(output.getvalue().encode('utf-8')),
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name=f'permit_{permit_number}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
     )
 
 
@@ -243,34 +404,159 @@ def stripe_webhook():
         pass
     
     return jsonify({'status': 'success'})
-@app.route('/success')
-# @login_required
-def success():
-    """Payment success page"""
-    return render_template('success.html')
-@app.route('/buy/<plan>')
-def buy_plan(plan):
-    """Redirect to Stripe payment link for specific plan"""
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
+@app.route('/library')
+@login_required
+def library():
+    """Library page - shows all permits and user's subscribed permits"""
+    user_id = session.get('user_id')
+    user = firebase.get_user(user_id)
     
-    # Map plan names to Stripe payment links
-    payment_links = {
-        'Bexar': 'https://buy.stripe.com/test_aFa9AV1n2fOPbiicLl63K00',
-        'Davidson': 'https://buy.stripe.com/test_aFa9AV1n2fOPbiicLl63K00',
-        'Hamilton': 'https://buy.stripe.com/test_aFa9AV1n2fOPbiicLl63K00',
-        'Austin-Travis': 'https://buy.stripe.com/test_aFa9AV1n2fOPbiicLl63K00'
-    }
+    # Get user's subscriptions to determine which counties they have access to
+    subscriptions = firebase.get_user_subscriptions(user_id) if user_id else []
+    user_counties = [sub.get('county', '').lower().replace(' ', '_') for sub in subscriptions]
     
-    if plan in payment_links:
-        return redirect(payment_links[plan])
+    # 1. Pull master list from scraped_permits directory
+    master = []
+    data_dir = Path('scraped_permits')
+    if data_dir.exists():
+        for csv_file in data_dir.glob('*.csv'):
+            city_name = csv_file.name.split('_')[0]  # Extract city from filename
+            # Map city names to slugs
+            city_map = {
+                'sanantonio': 'bexar',
+                'nashville': 'davidson',
+                'austin': 'travis',
+                'hamilton': 'hamilton'
+            }
+            city_slug = city_map.get(city_name, city_name)
+            try:
+                with open(csv_file, 'r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        row['city'] = city_slug
+                        # Add pull_time if not present (use file modification time)
+                        if 'pull_time' not in row:
+                            row['pull_time'] = datetime.fromtimestamp(csv_file.stat().st_mtime).strftime('%Y-%m-%d %H:%M:%S')
+                        master.append(row)
+            except Exception as e:
+                print(f"Error reading {csv_file}: {e}")
     
-    return "Plan not found", 404
+    # Also load from data/permits.csv if it exists (for mock data)
+    permits_file = Path('data/permits.csv')
+    if permits_file.exists():
+        try:
+            with open(permits_file, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    # Map county to city slug
+                    county = row.get('county', '')
+                    city_map = {
+                        'Nashville-Davidson': 'davidson',
+                        'Bexar': 'bexar', 
+                        'Hamilton': 'hamilton',
+                        'Austin-Travis': 'travis'
+                    }
+                    row['city'] = city_map.get(county, county.lower().replace(' ', '_'))
+                    # Add pull_time if not present
+                    if 'pull_time' not in row:
+                        row['pull_time'] = row.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                    master.append(row)
+        except Exception as e:
+            print(f"Error reading permits.csv: {e}")
+    
+    # 2. Pull only what they bought (filter by subscribed counties)
+    user_permits = [p for p in master if p.get('city', '').lower() in user_counties]
+    
+    # Sort both by pull_time (most recent first)
+    master.sort(key=lambda x: x.get('pull_time', ''), reverse=True)
+    user_permits.sort(key=lambda x: x.get('pull_time', ''), reverse=True)
+    
+    return render_template('library.html', master=master, user_permits=user_permits, user=user)
+@app.route('/admin')
+@login_required
+def admin():
+    """Admin page - shows all permits with filtering and sorting"""
+    user_id = session.get('user_id')
+    user = firebase.get_user(user_id) if firebase else None
+    
+    # Admin check - only allow specific admin users
+    if not user or user.get('email') not in ['admin@contractorleads.com', '145brice@gmail.com']:
+        return redirect(url_for('index'))
+    
+    # Pull master list from scraped_permits directory
+    master = []
+    data_dir = Path('scraped_permits')
+    if data_dir.exists():
+        for csv_file in data_dir.glob('*.csv'):
+            city_name = csv_file.name.split('_')[0]  # Extract city from filename
+            # Map city names to slugs
+            city_map = {
+                'sanantonio': 'bexar',
+                'nashville': 'davidson',
+                'austin': 'travis',
+                'hamilton': 'hamilton'
+            }
+            city_slug = city_map.get(city_name, city_name)
+            try:
+                with open(csv_file, 'r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        row['city'] = city_slug
+                        # Add pull_time if not present (use file modification time)
+                        if 'pull_time' not in row:
+                            row['pull_time'] = datetime.fromtimestamp(csv_file.stat().st_mtime).strftime('%Y-%m-%d %H:%M:%S')
+                        master.append(row)
+            except Exception as e:
+                print(f"Error reading {csv_file}: {e}")
+    
+    # Also load from data/permits.csv if it exists (for mock data)
+    permits_file = Path('data/permits.csv')
+    if permits_file.exists():
+        try:
+            with open(permits_file, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    # Map county to city slug for consistency
+                    county = row.get('county', '')
+                    city_map = {
+                        'Nashville-Davidson': 'davidson',
+                        'Bexar': 'bexar', 
+                        'Hamilton': 'hamilton',
+                        'Austin-Travis': 'travis'
+                    }
+                    row['city'] = city_map.get(county, county.lower().replace(' ', '_'))
+                    # Add pull_time if not present
+                    if 'pull_time' not in row:
+                        row['pull_time'] = row.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                    master.append(row)
+        except Exception as e:
+            print(f"Error reading permits.csv: {e}")
+    
+    # Sort by pull_time (most recent first)
+    master.sort(key=lambda x: x.get('pull_time', ''), reverse=True)
+    
+    # Get unique cities for filtering
+    cities = sorted(list(set(p.get('city', '') for p in master if p.get('city'))))
+    
+    # Calculate total value
+    total_value = sum(int(p.get('estimated_value', 0) or 0) for p in master)
+    
+    return render_template('admin.html', master=master, cities=cities, user=user, total_value=total_value)
+@app.route('/api/test')
+def api_test():
+    """Simple test API endpoint"""
+    print("DEBUG: TEST API ROUTE HIT")
+    return '{"test": "success"}'
 
 
-def run():
-    port = int(os.getenv('PORT', 8080))
-    print(f"🚀 Starting Contractor Leads on http://localhost:{port}")
-    app.run(host='0.0.0.0', port=port, debug=(config.FLASK_ENV == 'development'))
+print("DEBUG: API route registered")
+
+# Debug: Print all registered routes
+with app.app_context():
+    print("DEBUG: Registered routes:")
+    for rule in app.url_map.iter_rules():
+        print(f"  {rule.rule} -> {rule.endpoint}")
+
 if __name__ == '__main__':
-    run()
+    print(f"🚀 Starting Contractor Leads on http://localhost:5000")
+    app.run(host='0.0.0.0', port=5000, debug=False)
