@@ -1,6 +1,6 @@
 body {
-    background-color: #1a1f35;
-    color: #ffffff;
+    background-color: #fafafa;   /* light gray – no more dark navy */
+    color: #000000;              /* black text */
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
