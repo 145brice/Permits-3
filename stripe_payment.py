@@ -29,7 +29,7 @@ class StripePayment:
                 mode='subscription',
                 customer_email=customer_email,
                 line_items=[{
-                    'price': self.price_id,
+                    'price': self.default_price_id,
                     'quantity': 1,
                 }],
                 success_url=success_url or 'http://localhost:5008/success?session_id={CHECKOUT_SESSION_ID}',
