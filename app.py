@@ -681,13 +681,7 @@ def api_permits_date(year, month, day):
     ]
     return jsonify(leads)
 
-if __name__ == '__main__':
-    print(f"🚀 Starting Contractor Leads on http://localhost:8086")
-    try:
-        app.run(host='127.0.0.1', port=8086, debug=False, threaded=False, use_reloader=False)
-    except Exception as e:
-        print(f"❌ Error starting app: {e}")
-        import traceback
-        traceback.print_exc()
-# Force redeploy trigger - Sun Nov 23 20:07:26 CST 2025
-# Force redeploy - Sun Nov 23 21:19:01 CST 2025
+## app.run() removed for Railway/Gunicorn compatibility
+## Gunicorn will handle app startup and port assignment
+## Force redeploy trigger - Sun Nov 23 20:07:26 CST 2025
+## Force redeploy - Sun Nov 23 21:19:01 CST 2025
