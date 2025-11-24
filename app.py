@@ -639,12 +639,12 @@ def api_permits_date(year, month, day):
     ]
     return jsonify(leads)
 
-# Debug: Print all registered routes
-with app.app_context():
-    print("DEBUG: Registered routes:")
-    for rule in app.url_map.iter_rules():
-        print(f"  {rule.rule} -> {rule.endpoint}")
-
 if __name__ == '__main__':
     print(f"🚀 Starting Contractor Leads on http://localhost:8003")
-    app.run(host='0.0.0.0', port=8003, debug=False)
+    try:
+        app.run(host='127.0.0.1', port=8003, debug=False, threaded=False, use_reloader=False)
+    except Exception as e:
+        print(f"❌ Error starting app: {e}")
+        import traceback
+        traceback.print_exc()
+# Force redeploy trigger - Sun Nov 23 20:07:26 CST 2025
