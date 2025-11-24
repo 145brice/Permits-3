@@ -3,142 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful - Contractor Leads</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #fafafa;
-            color: #000;
-            line-height: 1.5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            text-align: center;
-            flex: 1;
-        }
-
-        .success-icon {
-            font-size: 48px;
-            color: #4682b4;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 16px;
-        }
-
-        .message {
-            font-size: 16px;
-            margin-bottom: 32px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
-            color: #4682b4;
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            margin: 8px;
-        }
-
-        .btn:hover {
-            text-decoration: underline;
-        }
-
-        .details {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 0;
-            padding: 24px;
-            margin-top: 32px;
-            text-align: left;
-        }
-
-        .details h2 {
-            color: #333;
-            margin-bottom: 16px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .details p {
-            margin-bottom: 8px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .details p:before {
-            content: "• ";
-            color: #4682b4;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px 16px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .message {
-                font-size: 14px;
-            }
-
-            .btn {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-
-            .details {
-                padding: 16px;
-            }
-        }
-    </style>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Success - Contractor Leads</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.v2.css') }}?v=5">
 </head>
 <body>
-    <div class="container">
-        <div class="success-icon">✓</div>
-        <h1>Payment Successful!</h1>
-        <p class="message">
-            Thank you for subscribing to Contractor Leads! Your payment has been processed successfully.
-            You now have access to daily contractor leads for your selected city.
-        </p>
-
-        <a href="/dashboard" class="btn">Go to Dashboard</a>
-        <a href="/" class="btn">Back to Home</a>
-
-        <div class="details">
-            <h2>What happens next?</h2>
-            <p>Your subscription is now active</p>
-            <p>Daily leads will be available in your dashboard</p>
-            <p>You can download PDF reports anytime</p>
-            <p>Email notifications are enabled for new leads</p>
+    <nav>
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign Up</a>
         </div>
-    </div>
+    </nav>
+    <nav>
+        <div class="nav-container">
+            <h1>Contractor Leads</h1>
+            <a href="{{ url_for('index') }}">Home</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="success">
+            <h2>Payment Successful</h2>
+            <p>Thank you for subscribing!</p>
+        </section>
+    </main>
 </body>
 </html>

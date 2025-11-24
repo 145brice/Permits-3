@@ -3,239 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>Dashboard - Contractor Leads</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #fafafa;
-            color: #000;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 16px;
-        }
-
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .nav-link {
-            color: #4682b4;
-            text-decoration: underline;
-            font-size: 16px;
-        }
-
-        .nav-link:hover {
-            text-decoration: underline;
-        }
-
-        .welcome-section {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            padding: 24px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .welcome-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .welcome-text {
-            color: #666;
-            font-size: 16px;
-        }
-
-        .download-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
-            color: #4682b4;
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .download-btn:hover {
-            text-decoration: underline;
-        }
-
-        .permits-table {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 0;
-            overflow: hidden;
-        }
-
-        .permits-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .permits-table th {
-            background: #f8f8f8;
-            color: #333;
-            padding: 16px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .permits-table th a {
-            color: #333;
-            text-decoration: none;
-        }
-
-        .permits-table th a:hover {
-            text-decoration: underline;
-            color: #4682b4;
-        }
-
-        .permits-table td {
-            padding: 16px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .permits-table tr:hover {
-            background: #f9f9f9;
-        }
-
-        .no-leads {
-            text-align: center;
-            padding: 60px 20px;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            color: #666;
-        }
-
-        .no-leads h3 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .no-leads p {
-            font-size: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 12px;
-            }
-
-            .permits-table th,
-            .permits-table td {
-                padding: 12px 8px;
-                font-size: 14px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.v2.css') }}?v=5">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Contractor Leads Dashboard</h1>
-            <p>Daily permit notifications and lead management</p>
+    <nav>
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign Up</a>
         </div>
+    </nav>
 
-        <div class="nav-links">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/library" class="nav-link">My Leads</a>
-            <a href="/archives" class="nav-link">Archives</a>
-            <a href="/logout" class="nav-link">Logout</a>
-        </div>
-
-        <div class="welcome-section">
-            <div class="welcome-title">Welcome back, {{ user.email }}!</div>
-            <div class="welcome-text">Your daily contractor leads are ready. Fresh permits are collected every morning.</div>
-        </div>
-
-        {% if permits %}
-        <div class="download-section">
-            <a href="/download_pdf/{{ date }}" class="download-btn">Download Today's Leads (PDF)</a>
-        </div>
-
-        <div class="permits-table">
-            <table>
+    <main>
+        <section class="dashboard">
+            <h2>Your Leads Dashboard</h2>
+            <table id="leads-table">
                 <thead>
                     <tr>
-                        <th><a href="?sort=address">Address</a></th>
-                        <th><a href="?sort=permit_type">Project</a></th>
-                        <th><a href="?sort=estimated_value">Price</a></th>
-                        <th><a href="?sort=date">Pulled</a></th>
+                        <th data-sort="work_description">Job Name</th>
+                        <th data-sort="address">Address</th>
+                        <th data-sort="estimated_value">Job Dollar Amount</th>
+                        <th data-sort="permit_type">Job Type</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for p in permits %}
+                <tbody id="leads-body">
+                    {% for lead in user_permits %}
                     <tr>
-                        <td>{{ p.address }}</td>
-                        <td>{{ p.permit_type }}</td>
-                        <td>${{ "{:,.0f}".format(p.estimated_value|int) }}</td>
-                        <td>{{ p.date }}</td>
+                        <td>{{ lead.work_description or 'N/A' }}</td>
+                        <td>{{ lead.address or 'N/A' }}</td>
+                        <td>{{ lead.estimated_value or 'N/A' }}</td>
+                        <td>{{ lead.permit_type or 'N/A' }}</td>
+                        <td>{{ lead.pull_time or 'N/A' }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-        {% else %}
-        <div class="no-leads">
-            <h3>No permits available</h3>
-            <p>No active subscriptions or no data available for your counties.</p>
-        </div>
-        {% endif %}
-    </div>
+            <div id="pagination"></div>
+        </section>
+    </main>
+
+    <script>
+        let leads = {{ user_permits|tojson }};
+        let currentPage = 1;
+        const itemsPerPage = 100;
+        let sortColumn = null;
+        let sortDirection = 'asc';
+
+        function renderTable() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageLeads = leads.slice(start, end);
+
+            const tbody = document.getElementById('leads-body');
+            tbody.innerHTML = pageLeads.map(lead => `
+                <tr>
+                    <td>${lead.work_description || 'N/A'}</td>
+                    <td>${lead.address || 'N/A'}</td>
+                    <td>${lead.estimated_value || 'N/A'}</td>
+                    <td>${lead.permit_type || 'N/A'}</td>
+                    <td>${lead.pull_time || 'N/A'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(leads.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button onclick="goToPage(${i})" ${i === currentPage ? 'class="active"' : ''}>${i}</button>`;
+            }
+            pagination.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable();
+            renderPagination();
+        }
+
+        function sortTable(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'asc';
+            }
+            leads.sort((a, b) => {
+                let aVal = a[column] || '';
+                let bVal = b[column] || '';
+                if (column === 'estimated_value') {
+                    aVal = parseFloat(aVal) || 0;
+                    bVal = parseFloat(bVal) || 0;
+                }
+                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        }
+
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.addEventListener('click', () => sortTable(th.dataset.sort));
+        });
+
+        renderTable();
+        renderPagination();
+    </script>
 </body>
 </html>

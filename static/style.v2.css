@@ -1,0 +1,196 @@
+body {
+    background-color: #1a1f35;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #1a1f35;
+    padding: 16px;
+    text-align: center;
+}
+
+.nav-container a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 16px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.nav-container a:hover {
+    color: #ffc107;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+    min-height: 150vh;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 0 20px;
+}
+
+.hero h2 {
+    font-size: 72px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.hero .cancel {
+    display: inline-block;
+    background-color: #ffc107;
+    color: #1a1f35;
+    padding: 4px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.cities {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.city-card {
+    background-color: #ffffff;
+    border: 2px solid #ffc107;
+    padding: 16px;
+    text-align: center;
+    width: calc(33.333% - 16px);
+    min-width: 200px;
+    box-sizing: border-box;
+}
+
+.city-card h3 {
+    color: #1a1f35;
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.city-card p {
+    color: #1a1f35;
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.city-card .price {
+    color: #666;
+    font-size: 12px;
+    margin: 8px 0 16px;
+}
+
+.subscribe-btn {
+    background-color: #ffc107;
+    color: #1a1f35;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+
+.how-it-works {
+    margin: 40px 0;
+    text-align: left;
+}
+
+.how-it-works h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.step {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 32px;
+}
+
+.testimonial {
+    text-align: center;
+    margin: 40px 0;
+    font-size: 16px;
+    color: #ffffff;
+    font-style: italic;
+}
+
+.final-cta {
+    text-align: center;
+    margin: 60px 0;
+}
+
+.final-btn {
+    background-color: #ffc107;
+    color: #1a1f35;
+    border: none;
+    padding: 20px 40px;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#leads-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#leads-table th, #leads-table td {
+    border: 1px solid #ffc107;
+    padding: 8px;
+    text-align: left;
+}
+
+#leads-table th {
+    background-color: #1a1f35;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#leads-table th:hover {
+    background-color: #ffc107;
+    color: #1a1f35;
+}
+
+#pagination {
+    text-align: center;
+}
+
+#pagination button {
+    background-color: #ffc107;
+    color: #1a1f35;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 4px;
+    cursor: pointer;
+}
+
+#pagination button.active {
+    background-color: #ffffff;
+    color: #1a1f35;
+}
