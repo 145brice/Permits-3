@@ -615,6 +615,30 @@ def create_checkout():
 
 print("DEBUG: API route registered")
 
+@app.route('/create_checkout', methods=['POST'])
+def create_checkout_route():
+    return create_checkout()
+
+@app.route('/api/test')
+def api_test():
+    return jsonify({'status': 'ok', 'message': 'API is working'})
+
+@app.route('/api/permits/<int:year>/<int:month>/<int:day>')
+def api_permits_date(year, month, day):
+    date_str = f"{year}-{month:02d}-{day:02d}"
+    leads = firebase.get_daily_leads(date_str) if firebase else [
+        {
+            "county": "Nashville-Davidson",
+            "permit_number": "DEMO-001",
+            "address": "123 Main St, Nashville, TN",
+            "permit_type": "Residential Addition",
+            "estimated_value": 50000,
+            "work_description": "Kitchen remodel and addition",
+            "date": date_str
+        }
+    ]
+    return jsonify(leads)
+
 # Debug: Print all registered routes
 with app.app_context():
     print("DEBUG: Registered routes:")
