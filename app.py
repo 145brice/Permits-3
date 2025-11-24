@@ -48,7 +48,13 @@ email_service = EmailService()
 @app.route('/')
 def index():
     user = session.get('user')
-    return render_template('index.html', user=user, stripe_publishable_key=config.STRIPE_PUBLISHABLE_KEY)
+    return render_template('index.html', 
+                          user=user, 
+                          stripe_publishable_key=config.STRIPE_PUBLISHABLE_KEY,
+                          stripe_link_nashville=config.STRIPE_LINK_NASHVILLE,
+                          stripe_link_chattanooga=config.STRIPE_LINK_CHATTANOOGA,
+                          stripe_link_austin=config.STRIPE_LINK_AUSTIN,
+                          stripe_link_sanantonio=config.STRIPE_LINK_SANANTONIO)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

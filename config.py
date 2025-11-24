@@ -29,6 +29,12 @@ STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 STRIPE_PRICE_ID = os.getenv('STRIPE_PRICE_ID')
 
+# Stripe Payment Links (Live)
+STRIPE_LINK_NASHVILLE = os.getenv('STRIPE_LINK_NASHVILLE', 'https://buy.stripe.com/3cI00laXCauv722h1B63K0q')
+STRIPE_LINK_CHATTANOOGA = os.getenv('STRIPE_LINK_CHATTANOOGA', 'https://buy.stripe.com/dRmeVf0iYgST2LM9z963K0p')
+STRIPE_LINK_AUSTIN = os.getenv('STRIPE_LINK_AUSTIN', 'https://buy.stripe.com/4gM5kF0iY0TVgCC12D63K0n')
+STRIPE_LINK_SANANTONIO = os.getenv('STRIPE_LINK_SANANTONIO', 'https://buy.stripe.com/8x25kF9TygST8663aL63K0o')
+
 # Email
 SMTP_HOST = os.getenv('SMTP_HOST', 'smtp.gmail.com')
 SMTP_PORT = int(os.getenv('SMTP_PORT', 587))

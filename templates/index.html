@@ -180,27 +180,27 @@
         </div>
 
         <div class="city-grid">
-            <div class="city-card" onclick="checkout('bexar')">
-                <div class="city-title">San Antonio - Bexar County</div>
-                <div class="city-description">Permits in San Antonio - Bexar County, TX</div>
-                <div class="city-price">$49.99/month</div>
-            </div>
-
-            <div class="city-card" onclick="checkout('davidson')">
+            <div class="city-card" onclick="checkout('nashville')">
                 <div class="city-title">Nashville - Davidson County</div>
                 <div class="city-description">Permits in Nashville - Davidson County, TN</div>
                 <div class="city-price">$49.99/month</div>
             </div>
 
-            <div class="city-card" onclick="checkout('hamilton')">
+            <div class="city-card" onclick="checkout('chattanooga')">
                 <div class="city-title">Chattanooga - Hamilton County</div>
                 <div class="city-description">Permits in Chattanooga - Hamilton County, TN</div>
                 <div class="city-price">$49.99/month</div>
             </div>
 
-            <div class="city-card" onclick="checkout('travis')">
+            <div class="city-card" onclick="checkout('austin')">
                 <div class="city-title">Austin - Travis County</div>
                 <div class="city-description">Permits in Austin - Travis County, TX</div>
+                <div class="city-price">$49.99/month</div>
+            </div>
+
+            <div class="city-card" onclick="checkout('sanantonio')">
+                <div class="city-title">San Antonio - Bexar County</div>
+                <div class="city-description">Permits in San Antonio - Bexar County, TX</div>
                 <div class="city-price">$49.99/month</div>
             </div>
         </div>
@@ -214,37 +214,19 @@
     <script>
         const stripe = Stripe('{{ stripe_publishable_key }}');
 
-        async function checkout(city) {
-            try {
-                const response = await fetch('/create-checkout-session', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        city: city,
-                        email: prompt('Enter your email address:')
-                    })
-                });
+        function checkout(city) {
+            const links = {
+                'nashville': '{{ stripe_link_nashville }}',
+                'chattanooga': '{{ stripe_link_chattanooga }}',
+                'austin': '{{ stripe_link_austin }}',
+                'sanantonio': '{{ stripe_link_sanantonio }}'
+            };
 
-                const session = await response.json();
-
-                if (session.error) {
-                    alert('Error: ' + session.error);
-                    return;
-                }
-
-                // Redirect to Stripe Checkout
-                const result = await stripe.redirectToCheckout({
-                    sessionId: session.id
-                });
-
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+            const link = links[city];
+            if (link) {
+                window.location.href = link;
+            } else {
+                alert('Payment link not available for this city');
             }
         }
     </script>
