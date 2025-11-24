@@ -98,20 +98,23 @@
 
         .city-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
             margin-bottom: 40px;
         }
 
         .city-card {
             background: #fff;
             border: 1px solid #e0e0e0;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .city-card:hover {
             border-color: #4682b4;
+            box-shadow: 0 2px 8px rgba(70, 130, 180, 0.1);
         }
 
         .city-title {
@@ -157,6 +160,18 @@
 
             .city-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .city-card {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .city-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
             }
         }
     </style>
