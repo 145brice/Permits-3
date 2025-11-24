@@ -57,14 +57,20 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         
-        user = firebase.create_user(email, password)
-        if user and 'error' not in user:
-            session['user_id'] = user['uid']
-            session['email'] = user['email']
-            return redirect(url_for('index'))
+        if firebase:
+            user = firebase.create_user(email, password)
+            if user and 'error' not in user:
+                session['user_id'] = user['uid']
+                session['email'] = user['email']
+                return redirect(url_for('index'))
+            else:
+                error_msg = user.get('error', 'Failed to create account') if user else 'Failed to create account'
+                return render_template('signup.html', error=error_msg)
         else:
-            error_msg = user.get('error', 'Failed to create account') if user else 'Failed to create account'
-            return render_template('signup.html', error=error_msg)
+            # Mock signup
+            session['user_id'] = 'mock_' + email.replace('@', '_')
+            session['email'] = email
+            return redirect(url_for('index'))
     
     return render_template('signup.html')
 
@@ -104,11 +110,21 @@ def subscribe():
 def dashboard():
     """Main dashboard - shows daily leads"""
     user_id = session.get('user_id')
-    user = firebase.get_user(user_id)
+    user = firebase.get_user(user_id) if firebase else {'email': session.get('email', 'demo@example.com')}
     
     # Get today's leads
     date_str = datetime.now().strftime('%Y-%m-%d')
-    leads = firebase.get_daily_leads(date_str)
+    leads = firebase.get_daily_leads(date_str) if firebase else [
+        {
+            "county": "Nashville-Davidson",
+            "permit_number": "DEMO-001",
+            "address": "123 Main St, Nashville, TN",
+            "permit_type": "Residential Addition",
+            "estimated_value": 50000,
+            "work_description": "Kitchen remodel and addition",
+            "date": date_str
+        }
+    ]
     
     return render_template('dashboard.html', 
                           user=user,
@@ -121,10 +137,10 @@ def dashboard():
 def archives():
     """Archives page - shows historical CSV files"""
     user_id = session.get('user_id')
-    user = firebase.get_user(user_id)
+    user = firebase.get_user(user_id) if firebase else {'email': session.get('email', 'demo@example.com')}
     
     # Get user's subscriptions
-    subscriptions = firebase.get_user_subscriptions(user_id) if user_id else []
+    subscriptions = firebase.get_user_subscriptions(user_id) if firebase and hasattr(firebase, 'get_user_subscriptions') else [{'county': 'Nashville-Davidson'}, {'county': 'Bexar'}]
     subscribed_counties = [sub.get('county', '') for sub in subscriptions]
     
     # Map county names to slugs
@@ -156,10 +172,10 @@ def archives():
 def view_csv(filename):
     """View CSV file as sortable table"""
     user_id = session.get('user_id')
-    user = firebase.get_user(user_id)
+    user = firebase.get_user(user_id) if firebase else {'email': session.get('email', 'demo@example.com')}
     
     # Get user's subscriptions
-    subscriptions = firebase.get_user_subscriptions(user_id) if user_id else []
+    subscriptions = firebase.get_user_subscriptions(user_id) if firebase and hasattr(firebase, 'get_user_subscriptions') else [{'county': 'Nashville-Davidson'}, {'county': 'Bexar'}]
     subscribed_counties = [sub.get('county', '') for sub in subscriptions]
     
     # Map to slugs
@@ -196,7 +212,17 @@ def view_csv(filename):
 @login_required
 def download_pdf(date):
     """Download PDF report for specific date"""
-    leads = firebase.get_daily_leads(date)
+    leads = firebase.get_daily_leads(date) if firebase else [
+        {
+            "county": "Nashville-Davidson",
+            "permit_number": "DEMO-001",
+            "address": "123 Main St, Nashville, TN",
+            "permit_type": "Residential Addition",
+            "estimated_value": 50000,
+            "work_description": "Kitchen remodel and addition",
+            "date": date
+        }
+    ]
     
     if not leads:
         return "No leads for this date", 404
@@ -392,12 +418,13 @@ def stripe_webhook():
     if event_type == 'checkout.session.completed':
         # Activate subscription
         user_id = event_data.get('user_id')
-        firebase.update_user_subscription(
-            user_id,
-            event_data['customer_id'],
-            event_data['subscription_id'],
-            'active'
-        )
+        if firebase:
+            firebase.update_user_subscription(
+                user_id,
+                event_data['customer_id'],
+                event_data['subscription_id'],
+                'active'
+            )
     
     elif event_type == 'customer.subscription.deleted':
         # Deactivate subscription
@@ -410,10 +437,10 @@ def stripe_webhook():
 def library():
     """Library page - shows all permits and user's subscribed permits"""
     user_id = session.get('user_id')
-    user = firebase.get_user(user_id)
+    user = firebase.get_user(user_id) if firebase else {'email': session.get('email', 'demo@example.com')}
     
     # Get user's subscriptions to determine which counties they have access to
-    subscriptions = firebase.get_user_subscriptions(user_id) if user_id else []
+    subscriptions = firebase.get_user_subscriptions(user_id) if firebase and hasattr(firebase, 'get_user_subscriptions') else [{'county': 'Nashville-Davidson'}, {'county': 'Bexar'}]
     user_counties = [sub.get('county', '').lower().replace(' ', '_') for sub in subscriptions]
     
     # 1. Pull master list from scraped_permits directory
